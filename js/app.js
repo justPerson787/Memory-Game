@@ -53,7 +53,7 @@ new_deck();
  function moveCounter() {
      moves += 1;
      document.getElementById("moves").textContent = moves;
-
+     starRating(moves);
  }
 
  // function to open cards
@@ -63,6 +63,7 @@ function open_card(c) {
     openCards.push(c);
 }
 
+// to display matched cards
 function matched() {
     openCards[0].classList.add('match');
     openCards[1].classList.add('match');
@@ -70,6 +71,7 @@ function matched() {
     moveCounter();   
 }
 
+//to hide back unmatched cards
 function unmatched() {
     //openCards[1].style.backgroundColor = "pink";
     block = true;
@@ -82,6 +84,7 @@ function unmatched() {
     moveCounter();
 }
 
+// restarting game
 function restart() {
     matchedCards.forEach(function(element) {
         element.classList.remove('open', 'show', 'match');
@@ -91,6 +94,17 @@ function restart() {
     // reset move counter
     moves = 0;
     document.getElementById("moves").textContent = moves;
+}
+
+//modifying star rating
+function starRating(moves) {
+    let stars = document.querySelectorAll(".stars li");
+    const maxMoves =[25, 15, 10];
+    for (let i = 0; i < stars.length; i++) {
+        if(moves == maxMoves[i]){
+            stars[i].style.visibility= 'hidden'
+        };
+    };
 }
 
 // the eventlistener for a clicked card to open
