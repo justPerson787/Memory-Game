@@ -5,12 +5,8 @@ let cards = ['fa-paper-plane-o','fa-diamond','fa-anchor','fa-bolt','fa-bomb','fa
 let openCards = [];
 let matchedCards = [];
 let moves = 0;
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+// var block disables opening more than 2 cards
+let block= false;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -76,10 +72,12 @@ function matched() {
 
 function unmatched() {
     //openCards[1].style.backgroundColor = "pink";
+    block = true;
     setTimeout(function(){
         openCards[0].classList.remove('open', 'show');
         openCards[1].classList.remove('open', 'show');
         openCards = [];
+        block = false;
     }, 700);
     moveCounter();
 }
@@ -95,19 +93,20 @@ function restart() {
     document.getElementById("moves").textContent = moves;
 }
 
+// the eventlistener for a clicked card to open
 document.querySelector('.deck').addEventListener('click', function (evt) {
-    if (event.target.nodeName === "LI"){
-        open_card(event.target)
-    };
-    if (openCards.length == 2 && openCards[0].innerHTML == openCards[1].innerHTML) {
-        matchedCards.push(openCards[0], openCards[1]);
-        matched()        
-    }; 
-    if (openCards.length == 2 && openCards[0].innerHTML != openCards[1].innerHTML) {
-        unmatched()
+    if (!block) {
+        if (event.target.nodeName === "LI"){
+            open_card(event.target)
+        };
+        if (openCards.length == 2 && openCards[0].innerHTML == openCards[1].innerHTML) {
+            matchedCards.push(openCards[0], openCards[1]);
+            matched()        
+        }; 
+        if (openCards.length == 2 && openCards[0].innerHTML != openCards[1].innerHTML) {
+            unmatched()
+        }
     }
-
-    
 });
 
 
