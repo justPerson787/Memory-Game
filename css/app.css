@@ -110,16 +110,14 @@ h1 {
 
 /* Modal*/
 #modal {
-    /*display: none; /* hidden by default */
-    /*background-color: aqua;*/
+    display: none; /* hidden by default */
     background-image: url("../img/lion.jpg");
-    background-size: cover; /*resize background  to cover all the position*/
+    background-size: cover; /*resize background  to cover all the space/
     margin: auto;
     padding: 10px;
     border: 1px solid #888;
     width: 82%;
     height: 80%;
-    z-index: 1111; /* appear on top */
     left: 0;
     top: 0;
     right: 0;
