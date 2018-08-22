@@ -5,7 +5,7 @@ let cards = ['fa-paper-plane-o','fa-diamond','fa-anchor','fa-bolt','fa-bomb','fa
 let openCards = [];
 let matchedCards = [];
 let moves = 0;
-// var block disables opening more than 2 cards
+// var block disables opening more than 2 cards simultaneously
 let block= false;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -107,6 +107,17 @@ function starRating(moves) {
     };
 }
 
+// Modal function
+var modal = document.getElementById('modal');
+// <span> element that closes the modal
+var exitModal = document.getElementsByClassName("closeModal")[0];
+// This function close the modal when the user clicks on X
+exitModal.onclick = function() {
+    modal.style.display = "none";
+}
+
+
+
 // the eventlistener for a clicked card to open
 document.querySelector('.deck').addEventListener('click', function (evt) {
     if (!block) {
@@ -119,6 +130,11 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
         }; 
         if (openCards.length == 2 && openCards[0].innerHTML != openCards[1].innerHTML) {
             unmatched()
+        }
+        // end of game. Display modal with the final score
+        if (matchedCards.length == 16) {
+            document.getElementById('score').innerHTML = moves;
+            modal.style.display = "block";
         }
     }
 });
