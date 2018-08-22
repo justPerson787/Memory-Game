@@ -112,7 +112,7 @@ h1 {
 #modal {
     display: none; /* hidden by default */
     background-image: url("../img/lion.jpg");
-    background-size: cover; /*resize background  to cover all the space/
+    background-size: cover; /*resize background  to cover all the space*/
     margin: auto;
     padding: 10px;
     border: 1px solid #888;

@@ -5,8 +5,8 @@ let cards = ['fa-paper-plane-o','fa-diamond','fa-anchor','fa-bolt','fa-bomb','fa
 let openCards = [];
 let matchedCards = [];
 let moves = 0;
-// var block disables opening more than 2 cards simultaneously
-let block= false;
+let stars = document.querySelectorAll(".stars li"); // stars for star rating
+let block= false; // var block disables opening more than 2 cards simultaneously
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -84,27 +84,21 @@ function unmatched() {
     moveCounter();
 }
 
-// restarting game
-function restart() {
-    matchedCards.forEach(function(element) {
-        element.classList.remove('open', 'show', 'match');
-    });
-    new_deck();
-    matchedCards = [];
-    // reset move counter
-    moves = 0;
-    document.getElementById("moves").textContent = moves;
-}
-
-//modifying star rating
+//changing star rating
 function starRating(moves) {
-    let stars = document.querySelectorAll(".stars li");
     const maxMoves =[25, 15, 10];
     for (let i = 0; i < stars.length; i++) {
         if(moves == maxMoves[i]){
             stars[i].style.visibility= 'hidden'
         };
     };
+}
+
+//reset star rating back to ***
+function resetStars(){
+    for (let i = 0; i < stars.length; i++){
+        stars[i].style.visibility= 'initial';
+    }
 }
 
 // Modal function
@@ -116,7 +110,17 @@ exitModal.onclick = function() {
     modal.style.display = "none";
 }
 
-
+// restarting game
+function restart() {
+    matchedCards.forEach(function(element) {
+        element.classList.remove('open', 'show', 'match');
+    });
+    new_deck();
+    matchedCards = [];
+    resetStars(); // reset starrating back to ***
+    moves = 0; // reset move counter
+    document.getElementById("moves").textContent = moves;    
+}
 
 // the eventlistener for a clicked card to open
 document.querySelector('.deck').addEventListener('click', function (evt) {
