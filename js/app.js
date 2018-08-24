@@ -8,6 +8,8 @@ let moves = 0;
 let stars = document.querySelectorAll(".stars li"); // stars for star rating
 let block= false; // var block disables opening more than 2 cards simultaneously
 let earnedStars = 3; //stars assigned to a player
+let seconds = 0; // init time
+let timerStart;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -24,10 +26,32 @@ function shuffle(array) {
     return array;
 }
 
+//Timer function
+function newTime() {
+    timerStart = setInterval(timer, 1000);
+}
+function timer() {
+    sec = checkTime(seconds % 60);
+    let m = Math.floor(seconds / 60);
+    min = checkTime(m);
+    document.getElementById("timer").textContent = min + ":" + sec;
+    seconds +=1;
+};
+
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // make two digits format for min and sec
+    return i;
+}
+
+// Stop timer
+function timerStop() {
+    clearInterval(timerStart);
+    seconds = 0;
+  }
+
 //Initiating a game
 function new_deck() {
     openCards = [];
-    timer();
     let ul = document.querySelectorAll(".deck i");
     for (let n = 0; n < ul.length; n++) {
         ul[n].classList.remove("fa");
@@ -38,6 +62,7 @@ function new_deck() {
         ul[n].classList.add("fa");
         ul[n].classList.add(cards[n]);
     }
+    newTime();
 }
 
 new_deck();
@@ -98,8 +123,6 @@ function starRating(moves) {
     };
 }
 
-//
-
 //reset star rating back to ***
 function resetStars(){
     for (let i = 0; i < stars.length; i++){
@@ -117,26 +140,9 @@ exitModal.onclick = function() {
     modal.style.display = "none";
 }
 
-//Timer function
-function timer() {
-    let seconds =0;
-    let timer2 = setInterval(function() {
-        let sec = checkTime(seconds % 60);
-        let m = Math.floor(seconds / 60);
-        let min = checkTime(m);
-        document.getElementById("timer").textContent = min + ":" + sec;
-        seconds +=1;
-    }, 1000);
-}
-timer();
-
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // make two digits format for min and sec
-    return i;
-}
-
 // restarting game
 function restart() {
+    timerStop();
     matchedCards.forEach(function(element) {
         element.classList.remove('open', 'show', 'match');
     });
@@ -167,9 +173,10 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
         // end of game. Display modal with the final score
         if (matchedCards.length == 16) {
             document.getElementById('score').innerHTML = moves;
-            clearTimeout(time);
+            timerStop();
             earnedStars == 1? document.getElementById('earnedStars').innerHTML = earnedStars + " star.": document.getElementById('earnedStars').innerHTML = earnedStars + " stars.";
             modal.style.display = "block";
+            document.getElementById('time').textContent = document.getElementById("timer").textContent;
         }
     }
 });
