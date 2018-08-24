@@ -7,6 +7,7 @@ let matchedCards = [];
 let moves = 0;
 let stars = document.querySelectorAll(".stars li"); // stars for star rating
 let block= false; // var block disables opening more than 2 cards simultaneously
+let earnedStars = 3; //stars assigned to a player
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -25,6 +26,7 @@ function shuffle(array) {
 
 //Initiating a game
 function new_deck() {
+    openCards = [];
     let ul = document.querySelectorAll(".deck i");
     for (let n = 0; n < ul.length; n++) {
         ul[n].classList.remove("fa");
@@ -86,18 +88,22 @@ function unmatched() {
 
 //changing star rating
 function starRating(moves) {
-    const maxMoves =[25, 15, 10];
+    const maxMoves =[27, 17, 12];
     for (let i = 0; i < stars.length; i++) {
         if(moves == maxMoves[i]){
             stars[i].style.visibility= 'hidden'
+            earnedStars -= 1;
         };
     };
 }
+
+//
 
 //reset star rating back to ***
 function resetStars(){
     for (let i = 0; i < stars.length; i++){
         stars[i].style.visibility= 'initial';
+        earnedStars = 3;
     }
 }
 
@@ -115,11 +121,15 @@ function restart() {
     matchedCards.forEach(function(element) {
         element.classList.remove('open', 'show', 'match');
     });
+    if(openCards != 0) {
+        openCards[0].classList.remove('open', 'show');
+    }
     new_deck();
     matchedCards = [];
     resetStars(); // reset starrating back to ***
     moves = 0; // reset move counter
-    document.getElementById("moves").textContent = moves;    
+    document.getElementById("moves").textContent = moves;   
+    modal.style.display = "none"; 
 }
 
 // the eventlistener for a clicked card to open
@@ -138,6 +148,7 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
         // end of game. Display modal with the final score
         if (matchedCards.length == 16) {
             document.getElementById('score').innerHTML = moves;
+            earnedStars == 1? document.getElementById('earnedStars').innerHTML = earnedStars + " star.": document.getElementById('earnedStars').innerHTML = earnedStars + " stars.";
             modal.style.display = "block";
         }
     }
