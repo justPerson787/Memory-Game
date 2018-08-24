@@ -27,6 +27,7 @@ function shuffle(array) {
 //Initiating a game
 function new_deck() {
     openCards = [];
+    timer();
     let ul = document.querySelectorAll(".deck i");
     for (let n = 0; n < ul.length; n++) {
         ul[n].classList.remove("fa");
@@ -116,6 +117,24 @@ exitModal.onclick = function() {
     modal.style.display = "none";
 }
 
+//Timer function
+function timer() {
+    let seconds =0;
+    let timer2 = setInterval(function() {
+        let sec = checkTime(seconds % 60);
+        let m = Math.floor(seconds / 60);
+        let min = checkTime(m);
+        document.getElementById("timer").textContent = min + ":" + sec;
+        seconds +=1;
+    }, 1000);
+}
+timer();
+
+function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // make two digits format for min and sec
+    return i;
+}
+
 // restarting game
 function restart() {
     matchedCards.forEach(function(element) {
@@ -148,6 +167,7 @@ document.querySelector('.deck').addEventListener('click', function (evt) {
         // end of game. Display modal with the final score
         if (matchedCards.length == 16) {
             document.getElementById('score').innerHTML = moves;
+            clearTimeout(time);
             earnedStars == 1? document.getElementById('earnedStars').innerHTML = earnedStars + " star.": document.getElementById('earnedStars').innerHTML = earnedStars + " stars.";
             modal.style.display = "block";
         }
