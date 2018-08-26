@@ -5,8 +5,14 @@
 This project has been created as a part of Udacity's Front End Web Development nanodegree.
 The starter project had some HTML and CSS styling to display a static version of the Memory Game.
 
-## Instructions
+To create the game I used:
+ - DOM manipulation through pure javascript;
+ - Font Awesome Icons;
 
-For details look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+
+## Game Rules
+
+This is a simple browser-based game. 
+A player may open any two cards at the time. If cards are matched, they stay open. If cards are different, they close again and the player again may open any two cards.The game finishes when all the cards are displayed.
 
 
